@@ -4,12 +4,12 @@ const express = require('express');
 connectToMongo();
 
 const app = express();
-const port = 3000
+const port = 3000;
 
-app.get('/',(req,res)=>{
-    res.send("hello world!");
-})
+app.use('/api/auth' , require('./routes/auth'));
+//app.use('/api/notes' , require('./routes/notes'));
+
 
 app.listen(port , ()=>{
     console.log(`Connected to http://localhost:${port}`);
-})
+});
