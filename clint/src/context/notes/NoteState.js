@@ -4,88 +4,93 @@ import NoteContext from "./noteContext";
 
 const NoteState = (props)=>{
 
-    const notesInitial =[
-        {
-          "_id": "63eccc66500bfc5770c31633",
-          "user": "63ea1006291efe61762adc9a",
-          "title": "My Title",
-          "description": "Please wake up early",
-          "tag": "Personal",
-          "date": "2023-02-15T12:13:26.178Z",
-          "__v": 0
-        },
-        {
-          "_id": "63eccc6b500bfc5770c31635",
-          "user": "63ea1006291efe61762adc9a",
-          "title": "My Title",
-          "description": "Please wake up early",
-          "tag": "Personal",
-          "date": "2023-02-15T12:13:31.732Z",
-          "__v": 0
-        },
-        {
-          "_id": "63ee0614713813639421ba9a",
-          "user": "63ea1006291efe61762adc9a",
-          "title": "New note",
-          "description": "Please access the playlist",
-          "tag": "Youtube",
-          "date": "2023-02-16T10:31:48.635Z",
-          "__v": 0
-        },
-        {
-          "_id": "63ee117e66497193b38c5085",
-          "user": "63ea1006291efe61762adc9a",
-          "title": "New note",
-          "description": "Please access the playlist",
-          "tag": "Youtube",
-          "date": "2023-02-16T11:20:30.749Z",
-          "__v": 0
-        },
-        {
-            "_id": "63eccc66500bfc5770c31653",
-            "user": "63ea1006291efe61762adc9a",
-            "title": "My Title",
-            "description": "Please wake up early",
-            "tag": "Personal",
-            "date": "2023-02-15T12:13:26.178Z",
-            "__v": 0
-          },
-          {
-            "_id": "63eccc6b500bfc5770c37635",
-            "user": "63ea1006291efe61762adc9a",
-            "title": "My Title",
-            "description": "Please wake up early",
-            "tag": "Personal",
-            "date": "2023-02-15T12:13:31.732Z",
-            "__v": 0
-          },
-          {
-            "_id": "63ee0614713813639425ba9a",
-            "user": "63ea1006291efe61762adc9a",
-            "title": "New note",
-            "description": "Please access the playlist",
-            "tag": "Youtube",
-            "date": "2023-02-16T10:31:48.635Z",
-            "__v": 0
-          },
-          {
-            "_id": "63ee117e66497193b38c5095",
-            "user": "63ea1006291efe61762adc9a",
-            "title": "New note",
-            "description": "Please access the playlist",
-            "tag": "Youtube",
-            "date": "2023-02-16T11:20:30.749Z",
-            "__v": 0
-          }
-      ];
+  const host = "http://localhost:5000";
+  const notesInitial =[];
 
-      const [notes,setNotes] = useState(notesInitial);
+    const [notes,setNotes] = useState(notesInitial);
 
-    return(
-        <NoteContext.Provider value = {{notes,setNotes}}>
-            {props.children}
-        </NoteContext.Provider>
-    );
+
+    //Get note
+
+    const getNotes = async()=>{
+
+      const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNlYTEwMDYyOTFlZmU2MTc2MmFkYzlhIn0sImlhdCI6MTY3NjM3MjQ3MX0.c3rFK-6demIOgdwORSjfAXHBq3d6hSjvF8odXKVSD4M",
+        },
+        body: JSON.stringify(),
+      });
+      const allNote = await response.json();
+      console.log("fetch all note",allNote);
+      setNotes(allNote);
+    }
+
+    // Add a note
+    const addNote = async(title , description,tag)=>{
+      //Todo API
+      const response = await fetch(`${host}/api/notes/addnote`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNlYTEwMDYyOTFlZmU2MTc2MmFkYzlhIn0sImlhdCI6MTY3NjM3MjQ3MX0.c3rFK-6demIOgdwORSjfAXHBq3d6hSjvF8odXKVSD4M",
+        },
+        body: JSON.stringify({title,description,tag}),
+      });
+      const note = await response.json();
+      console.log("add Note",note);
+      setNotes(notes.concat(note));
+    }
+
+    //delete a note
+    const deleteNote = async(id)=>{
+      //TODO API CALL
+      const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNlYTEwMDYyOTFlZmU2MTc2MmFkYzlhIn0sImlhdCI6MTY3NjM3MjQ3MX0.c3rFK-6demIOgdwORSjfAXHBq3d6hSjvF8odXKVSD4M",
+        },
+        body: JSON.stringify(),
+      });
+      const note = await response.json();
+      console.log("delete Note",note);
+
+      const newNotes = notes.filter((note)=> {return note._id !== id});
+      setNotes(newNotes)
+    }
+    //edit a note
+    const editNote = async (id ,title , description,tag)=>{
+      //API CALL
+      const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNlYTEwMDYyOTFlZmU2MTc2MmFkYzlhIn0sImlhdCI6MTY3NjM3MjQ3MX0.c3rFK-6demIOgdwORSjfAXHBq3d6hSjvF8odXKVSD4M",
+        },
+        body: JSON.stringify({title,description,tag}),
+      });
+      const note = await response.json();
+      console.log("edit note",note);
+      const newNotes = notes.map((note)=>{
+        if(id === note._id){
+          note.title = title;
+          note.description = description;
+          note.tag = tag;
+        }
+        return note;
+      });
+
+      setNotes(newNotes);
+
+    }
+
+  return(
+      <NoteContext.Provider value = {{notes,addNote,deleteNote,editNote,getNotes}}>
+          {props.children}
+      </NoteContext.Provider>
+  );
 
 };
 
