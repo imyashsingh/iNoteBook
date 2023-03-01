@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import alertContext from '../context/alerts/alertContest';
 
-const Alert = ({message}) => {
+
+function Alert() {
+   const {alert}= useContext(alertContext);;
+  const capitalize = (word)=>{
+      const lower = word.toLowerCase();
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
   return (
-    <div className="alert alert-danger" role="alert">
-        {message}
+    <div style={{height: '50px'}}>
+        {alert && <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+        <strong>{capitalize(alert.type)}</strong>: {alert.msg}</div>}
     </div>
-
   )
 }
 
-export default Alert;
+export default Alert

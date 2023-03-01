@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import alertContext from '../context/alerts/alertContest';
 import noteContext from '../context/notes/noteContext';
 import { AddNote } from './AddNote';
 import  NoteItems  from './NoteItems';
 
 const Notes = () => {
   const context = useContext(noteContext);
+  const {showAlert} = useContext(alertContext);
   const {notes,getNotes,editNote} = context;
   useEffect(()=>{
     getNotes();
@@ -28,6 +30,7 @@ const Notes = () => {
       event.preventDefault();
       editNote(note.id,note.etitle,note.edescription,note.etag);
       refClose.current.click();
+      showAlert("Note added Successfully ","success");
   }
 
   return (

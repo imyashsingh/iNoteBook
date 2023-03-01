@@ -8,13 +8,15 @@ import NoteState from './context/notes/NoteState';
 import Alert from './components/Alert';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import AlertState from './context/alerts/AlertState';
 
 function App() {
   return (
+    <AlertState>
     <NoteState>
       <BrowserRouter >
         <Navbar/>
-        <Alert message="this is cool react app"/>
+        <Alert/>
         <div className="container">
           <Routes>
             <Route path="/" element={<Home/>}/>
@@ -25,6 +27,7 @@ function App() {
         </div>
       </BrowserRouter>
     </NoteState>
+    </AlertState>
   );
 }
 
