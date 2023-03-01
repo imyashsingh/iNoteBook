@@ -19,8 +19,8 @@ const Login = () => {
       const json = await response.json();
       if(json.success){
         localStorage.setItem('token',json.authtoken);
-        navigate("/");
         showAlert("Logged in Successfully ","success");
+        navigate("/");
       }
       else{
         showAlert("Invalid Details","danger");
@@ -34,7 +34,8 @@ const Login = () => {
   }
     
   return (
-    <div>
+    <div className='mt-3'>
+      <h2 className='my-3'>Login to continue to iNotebook</h2>
         <form onSubmit={handleSubmit}>
             <div className="form-group my-3">
                 <label htmlFor="email">Email address</label>

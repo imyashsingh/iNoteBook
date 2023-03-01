@@ -19,9 +19,8 @@ const Signup = () => {
         const json = await response.json();
         if(json.success){
           localStorage.setItem('token',json.authtoken);
-          console.log(json);
           navigate("/");
-          showAlert("Logged in Successfully ","success");
+          showAlert("Account Created Successfully ","success");
         }
         else{
           showAlert("Invalid Details","danger");
@@ -35,7 +34,8 @@ const Signup = () => {
     }
 
     return (
-    <div>
+    <div className='mt-3'>
+      <h2 className='my-3'>Create an account to use iNotebook</h2>
         <form onSubmit={handleSubmit}>
             <div className="form-group my-2">
                 <label htmlFor="name">Name</label>
