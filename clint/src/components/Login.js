@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import alertContext from "../context/alerts/alertContest";
+import { HOST } from "../host";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -8,19 +9,16 @@ const Login = () => {
   let navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(
-      `${process.env.REACT_APP_HOST}/api/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: credentials.email,
-          password: credentials.password,
-        }),
-      }
-    );
+    const response = await fetch(`${HOST}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }),
+    });
     const json = await response.json();
     if (json.success) {
       localStorage.setItem("token", json.authtoken);

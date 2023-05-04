@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import alertContext from "../context/alerts/alertContest";
+import { HOST } from "../host";
 
 const Signup = () => {
   const [credentials, setCredentials] = useState({
@@ -13,20 +14,17 @@ const Signup = () => {
   let navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(
-      `${process.env.REACT_APP_HOST}/api/auth/createuser`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: credentials.name,
-          email: credentials.email,
-          password: credentials.password,
-        }),
-      }
-    );
+    const response = await fetch(`${HOST}/api/auth/createuser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+      }),
+    });
     const json = await response.json();
     if (json.success) {
       localStorage.setItem("token", json.authtoken);
