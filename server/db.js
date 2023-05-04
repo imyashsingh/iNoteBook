@@ -1,16 +1,17 @@
-const mongoose = require('mongoose');
-const mongoURL = "mongodb://0.0.0.0:27017/iNotebook";
+const mongoose = require("mongoose");
+require("dotenv").config();
+const mongoURL = process.env.mongoURL;
 
-mongoose.set('strictQuery', false);
+mongoose.set("strictQuery", false);
 
-const connectToMongo = async ()=>{
-    try {
-        await mongoose.connect(mongoURL).then(()=>{
-        console.log("Database Connected Successfully");
-        })
-    } catch (error) {
-        console.log("Error: ", error.message);
-    }
-}
+const connectToMongo = async () => {
+  try {
+    await mongoose.connect(mongoURL).then(() => {
+      console.log("Database Connected Successfully");
+    });
+  } catch (error) {
+    console.log("Error: ", error.message);
+  }
+};
 
-module.exports = connectToMongo
+module.exports = connectToMongo;
